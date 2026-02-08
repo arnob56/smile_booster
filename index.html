@@ -8,9 +8,9 @@
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- React + ReactDOM -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- React -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
   <!-- Framer Motion -->
   <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
@@ -22,127 +22,120 @@
     body {
       margin: 0;
       height: 100vh;
-      font-family: "Segoe UI", sans-serif;
       background: linear-gradient(120deg, #ff9a9e, #fad0c4);
-      overflow: hidden;
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       transition: 0.5s;
+      overflow: hidden;
     }
 
     body.night {
       background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
+      color: white;
     }
 
     .card-box {
       background: rgba(255,255,255,0.25);
       backdrop-filter: blur(12px);
-      border-radius: 25px;
       padding: 40px;
+      border-radius: 25px;
       max-width: 420px;
-      margin: auto;
-      margin-top: 12vh;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
     }
 
     body.night .card-box {
-      background: rgba(0,0,0,0.35);
+      background: rgba(0,0,0,0.4);
     }
 
-    h1 {
-      font-size: 2.6rem;
-      margin-bottom: 15px;
-    }
-
-    .type-text {
-      font-size: 1.2rem;
+    .type {
       min-height: 70px;
+      font-size: 1.2rem;
+      margin-top: 10px;
     }
 
     .btn-love {
+      margin: 6px;
+      padding: 10px 22px;
+      border-radius: 25px;
+      border: none;
       background: #ff4d6d;
       color: white;
-      border: none;
-      border-radius: 30px;
-      padding: 10px 25px;
-      margin: 8px;
       transition: 0.3s;
     }
 
     .btn-love:hover {
       transform: scale(1.05);
-      background: #ff1e4d;
-    }
-
-    .night-btn {
-      background: #222;
-      color: #fff;
     }
 
     .hug {
       position: fixed;
       font-size: 2rem;
-      animation: hugFloat 3s ease-out forwards;
+      animation: hug 3s forwards;
     }
 
-    @keyframes hugFloat {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+    @keyframes hug {
+      from { bottom: 20px; opacity: 1; }
+      to { bottom: 300px; opacity: 0; transform: scale(1.6); }
     }
   </style>
 </head>
 
 <body>
-  <!-- 🎵 Background Music -->
-  <audio autoplay loop>
-    <source src="https://docs.google.com/uc?export=download&id=1n4mT2tM2N0ZyH5F4cQYy0R8X7HcJZK0k" type="audio/mpeg">
+  <audio id="bgm" loop>
+    <source src="https://open.spotify.com/track/5FXMRdJjKq1BIX4e8Eg9mK?si=1718aa689af347e1">
   </audio>
 
   <div id="root"></div>
 
   <script type="text/babel">
-    const { motion } = window["framer-motion"];
+    const { motion } = window.framerMotion;
 
     function App() {
-      const texts = [
-        "I know today feels heavy… 🤍",
-        "But you are stronger than you think 🌸",
-        "Your smile matters more than you know ✨",
-        "Dekha ek khwab to ye silsile huye… 🎶",
-        "I’m always right here 🫂"
+      const messages = [
+        "Hey Nilima 🤍",
+        "Smile karo"
+        "You are never alone 🌸",
+        "Main hoon Na🎶",
+        "Ek smile kar do mere liye, plz🥹🥹"
       ];
 
-      const [displayText, setDisplayText] = React.useState("");
-      const [index, setIndex] = React.useState(0);
-      const [char, setChar] = React.useState(0);
+      const [text, setText] = React.useState("");
+      const [i, setI] = React.useState(0);
+      const [j, setJ] = React.useState(0);
 
       React.useEffect(() => {
-        if (char < texts[index].length) {
+        if (j < messages[i].length) {
           setTimeout(() => {
-            setDisplayText(displayText + texts[index][char]);
-            setChar(char + 1);
+            setText(text + messages[i][j]);
+            setJ(j + 1);
           }, 60);
         }
-      }, [char]);
+      }, [j]);
 
-      const nextText = () => {
-        setDisplayText("");
-        setChar(0);
-        setIndex((index + 1) % texts.length);
+      const next = () => {
+        setText("");
+        setJ(0);
+        setI((i + 1) % messages.length);
       };
 
-      const toggleNight = () => {
+      const night = () => {
         document.body.classList.toggle("night");
       };
 
-      const sendHug = () => {
-        const hug = document.createElement("div");
-        hug.className = "hug";
-        hug.innerText = "🫂";
-        hug.style.left = Math.random() * 80 + "vw";
-        hug.style.bottom = "20px";
-        document.body.appendChild(hug);
-        setTimeout(() => hug.remove(), 3000);
+      const hug = () => {
+        const h = document.createElement("div");
+        h.className = "hug";
+        h.innerText = "🫂";
+        h.style.left = Math.random() * 80 + "vw";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 3000);
+      };
+
+      const playMusic = () => {
+        document.getElementById("bgm").play();
       };
 
       return (
@@ -152,19 +145,14 @@
           transition={{ duration: 1 }}
           className="card-box"
         >
-          <h1>Hey Nilima 🤍</h1>
-          <div className="type-text">{displayText}</div>
+          <h2>Just For You 💖</h2>
+          <div className="type">{text}</div>
 
-          <div className="mt-4">
-            <button className="btn-love" onClick={nextText}>
-              Next 💌
-            </button>
-            <button className="btn-love night-btn" onClick={toggleNight}>
-              Night 🌙
-            </button>
-            <button className="btn-love" onClick={sendHug}>
-              Send Hug 🫂
-            </button>
+          <div className="mt-3">
+            <button className="btn-love" onClick={next}>Next 💌</button>
+            <button className="btn-love" onClick={night}>Night 🌙</button>
+            <button className="btn-love" onClick={hug}>Send Hug 🫂</button>
+            <button className="btn-love" onClick={playMusic}>Play Music 🎵</button>
           </div>
         </motion.div>
       );
