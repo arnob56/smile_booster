@@ -17,26 +17,47 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
 
     .card-box {
-      background: rgba(255,255,255,0.28);
-      backdrop-filter: blur(14px);
-      padding: 48px;
-      border-radius: 30px;
-      max-width: 460px;
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(12px);
+      padding: 45px;
+      border-radius: 28px;
+      max-width: 440px;
       text-align: center;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+      box-shadow: 0 25px 45px rgba(0,0,0,0.25);
     }
 
     h2 {
-      margin-bottom: 18px;
+      margin-bottom: 15px;
     }
 
     #typeText {
-      min-height: 120px;
+      min-height: 90px;
       font-size: 1.25rem;
-      line-height: 1.7;
+      line-height: 1.6;
+    }
+
+    .hug {
+      position: fixed;
+      font-size: 2rem;
+      animation: hugFloat 4s ease-out forwards;
+      opacity: 0.9;
+    }
+
+    @keyframes hugFloat {
+      from {
+        bottom: 15px;
+        transform: scale(1);
+        opacity: 1;
+      }
+      to {
+        bottom: 320px;
+        transform: scale(1.6);
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -50,16 +71,15 @@
 
   <script>
     const messages = [
-      "Kokhono mon kharap kore thakbe na,
-      "Just breathe. This moment is safe.",
-      "Main Hoon Na tmhare liye😌😌",
-      "Your smile is precious to me",
-      "Ekbar mere liye smile kardo, plz🥹🥹🥹"
+      "I know today feels heavy… 🤍",
+      "Sometimes nothing feels right, and that’s okay.",
+      "You don’t have to be strong all the time 🌸",
+      "Dekha ek khwab to ye silsile huye…",
+      "This moment… this hug… is for you 🫂"
     ];
 
     const speed = 55;
-    const pause = 1300;
-
+    const pause = 1200;
     let msgIndex = 0;
     let charIndex = 0;
     const textEl = document.getElementById("typeText");
@@ -81,10 +101,25 @@
       if (msgIndex < messages.length) {
         textEl.innerHTML = "";
         typeEffect();
+        sendHug();
       }
     }
 
-    window.onload = typeEffect;
+    function sendHug() {
+      const hug = document.createElement("div");
+      hug.className = "hug";
+      hug.innerText = "🫂";
+      hug.style.left = Math.random() * 80 + "vw";
+      document.body.appendChild(hug);
+
+      setTimeout(() => hug.remove(), 4000);
+    }
+
+    // Start automatically on page load
+    window.onload = () => {
+      typeEffect();
+      setInterval(sendHug, 5000);
+    };
   </script>
 
 </body>
