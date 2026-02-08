@@ -17,98 +17,51 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: 0.5s;
-      overflow: hidden;
-    }
-
-    body.night {
-      background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
-      color: white;
     }
 
     .card-box {
-      background: rgba(255,255,255,0.25);
-      backdrop-filter: blur(12px);
-      padding: 40px;
-      border-radius: 25px;
-      max-width: 420px;
+      background: rgba(255,255,255,0.28);
+      backdrop-filter: blur(14px);
+      padding: 48px;
+      border-radius: 30px;
+      max-width: 460px;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-    }
-
-    body.night .card-box {
-      background: rgba(0,0,0,0.4);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
     }
 
     h2 {
-      margin-bottom: 10px;
+      margin-bottom: 18px;
     }
 
     #typeText {
-      min-height: 70px;
-      font-size: 1.2rem;
-      margin-top: 10px;
-    }
-
-    .btn-love {
-      margin: 6px;
-      padding: 10px 22px;
-      border-radius: 25px;
-      border: none;
-      background: #ff4d6d;
-      color: white;
-      transition: 0.3s;
-    }
-
-    .btn-love:hover {
-      transform: scale(1.05);
-    }
-
-    .hug {
-      position: fixed;
-      font-size: 2rem;
-      animation: hugFloat 3s forwards;
-    }
-
-    @keyframes hugFloat {
-      from { bottom: 20px; opacity: 1; }
-      to { bottom: 300px; opacity: 0; transform: scale(1.6); }
+      min-height: 120px;
+      font-size: 1.25rem;
+      line-height: 1.7;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Background Music -->
-  <audio id="bgm" loop>
-    <!-- You MUST replace this with your own hosted song -->
-    <source src="https://cdn.pixabay.com/audio/2023/03/14/audio_3c8cbd59b2.mp3" type="audio/mpeg">
-  </audio>
-
   <div class="card-box">
     <h2>Hey Nilima 🤍</h2>
     <div id="typeText"></div>
-
-    <div class="mt-3">
-      <button class="btn-love" onclick="nextText()">Next 💌</button>
-      <button class="btn-love" onclick="toggleNight()">Night 🌙</button>
-      <button class="btn-love" onclick="sendHug()">Send Hug 🫂</button>
-      <button class="btn-love" onclick="playMusic()">Play Music 🎵</button>
-    </div>
   </div>
 
   <script>
     const messages = [
-      "Keep Smiling always",
-      "You are never alone 🌸",
-      "Main hoon na tmhara personal saviour😌",
-      "Your smile matters more than you know ✨",
-      "Ek smile kardo mere liye, plz🥹🥹"
+      "Kokhono mon kharap kore thakbe na,
+      "Just breathe. This moment is safe.",
+      "Main Hoon Na tmhare liye😌😌",
+      "Your smile is precious to me",
+      "Ekbar mere liye smile kardo, plz🥹🥹🥹"
     ];
+
+    const speed = 55;
+    const pause = 1300;
 
     let msgIndex = 0;
     let charIndex = 0;
-    const speed = 60;
     const textEl = document.getElementById("typeText");
 
     function typeEffect() {
@@ -116,34 +69,22 @@
         textEl.innerHTML += messages[msgIndex].charAt(charIndex);
         charIndex++;
         setTimeout(typeEffect, speed);
+      } else {
+        setTimeout(nextMessage, pause);
       }
     }
 
-    typeEffect();
-
-    function nextText() {
+    function nextMessage() {
       charIndex = 0;
-      msgIndex = (msgIndex + 1) % messages.length;
-      textEl.innerHTML = "";
-      typeEffect();
+      msgIndex++;
+
+      if (msgIndex < messages.length) {
+        textEl.innerHTML = "";
+        typeEffect();
+      }
     }
 
-    function toggleNight() {
-      document.body.classList.toggle("night");
-    }
-
-    function sendHug() {
-      const hug = document.createElement("div");
-      hug.className = "hug";
-      hug.innerText = "🫂";
-      hug.style.left = Math.random() * 80 + "vw";
-      document.body.appendChild(hug);
-      setTimeout(() => hug.remove(), 3000);
-    }
-
-    function playMusic() {
-      document.getElementById("bgm").play();
-    }
+    window.onload = typeEffect;
   </script>
 
 </body>
